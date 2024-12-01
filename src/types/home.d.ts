@@ -24,3 +24,18 @@ export type HotItem = {
   title: string
   type: number
 }
+
+export type GuessItem = {
+  //商品描述
+  desc: string
+  //商品折扣
+  discount: string
+  id: string
+  name: string
+  //商品已下单数量
+  orderNum: number
+  //商品图片
+  picture: string
+  //商品价格
+  price: number
+}
