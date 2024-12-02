@@ -7,6 +7,7 @@ import { onLoad } from '@dcloudio/uni-app'
 import { ref } from 'vue'
 import CategoryPanel from '@/pages/index/components/CategoryPanel.vue'
 import HotPanel from '@/pages/index/components/HotPanel.vue'
+import type { XtxGuessInstance } from '@/types/component'
 
 //定义轮播图数据
 const bannerList = ref<BannerItem[]>([])
@@ -27,6 +28,7 @@ const getHomeCategoryData = async () => {
   categoryList.value = res.result
 }
 
+//定义热门数据
 const hotList = ref<HotItem[]>([])
 const getHomeHotData = async () => {
   const res = await getHomeHotAPI()
@@ -38,11 +40,16 @@ onLoad(() => {
   getHomeCategoryData()
   getHomeHotData()
 })
+
+const guessRef = ref<XtxGuessInstance>()
+const onScrolltolower = () => {
+  guessRef.value?.getMore()
+}
 </script>
 
 <template>
   <CustomNavbar />
-  <scroll-view class="scroll-view" scroll-y>
+  <scroll-view @scrolltolower="onScrolltolower" class="scroll-view" scroll-y>
     <XtxSwiper :list="bannerList" />
     <CategoryPanel :list="categoryList" />
     <HotPanel :list="hotList" />

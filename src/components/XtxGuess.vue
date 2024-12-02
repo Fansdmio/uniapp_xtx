@@ -13,6 +13,9 @@ const getHomeGoodGuessLikeData = async () => {
 onMounted(() => {
   getHomeGoodGuessLikeData()
 })
+defineExpose({
+  getMore: getHomeGoodGuessLikeData,
+})
 </script>
 
 <template>

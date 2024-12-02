@@ -13,3 +13,5 @@ declare module 'vue' {
     //
   }
 }
+
+export type XtxGuessInstance = InstanceType<typeof XtxGuess>
