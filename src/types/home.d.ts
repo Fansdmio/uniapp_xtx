@@ -39,3 +39,8 @@ export type GuessItem = {
   //商品价格
   price: number
 }
+
+export type PageParams = {
+  page?: number
+  pageSize?: number
+}

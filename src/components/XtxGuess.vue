@@ -1,19 +1,31 @@
 <script setup lang="ts">
 //
 import { getHomeGoodGuessLikeAPI } from '@/services/home'
-import type { GuessItem } from '@/types/home'
+import type { GuessItem, PageParams } from '@/types/home'
 import { onMounted, ref } from 'vue'
 
+//初始化分页参数
+const pageParams: Required<PageParams> = {
+  page: 1,
+  pageSize: 10,
+}
+
+// 定义猜你喜欢数据
 const guessList = ref<GuessItem[]>([])
 const getHomeGoodGuessLikeData = async () => {
-  const res = await getHomeGoodGuessLikeAPI()
-  guessList.value = res.result.items
+  const res = await getHomeGoodGuessLikeAPI(pageParams)
+  // guessList.value = res.result.items
+  guessList.value.push(...res.result.items)
+  console.log('已请求数据:' + pageParams.page)
+  pageParams.page++
 }
 // 组件挂载时请求数据
 onMounted(() => {
   getHomeGoodGuessLikeData()
 })
+// 暴露getHOmeGoodGuessLikeData给父组件的方法
 defineExpose({
+  //重命名为getMore
   getMore: getHomeGoodGuessLikeData,
 })
 </script>

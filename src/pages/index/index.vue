@@ -41,9 +41,13 @@ onLoad(() => {
   getHomeHotData()
 })
 
+//定义猜你喜欢组件实例  使guessRef的类型为XtxGuess组件实例
 const guessRef = ref<XtxGuessInstance>()
+//滚动到底部时触发加载更多
 const onScrolltolower = () => {
+  //调用getMore(getHomeGoodGuessLikeData)方法
   guessRef.value?.getMore()
+  // console.log('触发加载更多')
 }
 </script>
 
@@ -53,7 +57,8 @@ const onScrolltolower = () => {
     <XtxSwiper :list="bannerList" />
     <CategoryPanel :list="categoryList" />
     <HotPanel :list="hotList" />
-    <XtxGuess />
+    <!-- 绑定XtxGuess组件到guessRef里 -->
+    <XtxGuess ref="guessRef" />
   </scroll-view>
 </template>
 

@@ -13,5 +13,5 @@ declare module 'vue' {
     //
   }
 }
-
+// 定义实体类型为XtxGuess
 export type XtxGuessInstance = InstanceType<typeof XtxGuess>
