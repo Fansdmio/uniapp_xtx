@@ -38,12 +38,19 @@ const getHomeGoodGuessLikeData = async () => {
   //页码累加
   pageParams.page++
 }
+
+const resetData = () => {
+  pageParams.page = 1
+  guessList.value = []
+  finish.value = false
+}
 // 组件挂载时请求数据
 onMounted(() => {
   getHomeGoodGuessLikeData()
 })
 // 暴露getHOmeGoodGuessLikeData给父组件的方法
 defineExpose({
+  resetData,
   //重命名为getMore
   getMore: getHomeGoodGuessLikeData,
 })

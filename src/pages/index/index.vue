@@ -59,6 +59,7 @@ const onRefresherrefresh = async () => {
   // await getHomeCategoryData()
   // await getHomeHotData()
   await Promise.all([getBannerData(), getHomeCategoryData(), getHomeHotData()])
+  guessRef.value?.resetData()
   isTriggered.value = false
 }
 </script>
