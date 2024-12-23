@@ -49,11 +49,30 @@ const onScrolltolower = () => {
   guessRef.value?.getMore()
   // console.log('触发加载更多')
 }
+
+//定义下拉刷新状态
+const isTriggered = ref(false)
+//下拉刷行时触发
+const onRefresherrefresh = async () => {
+  isTriggered.value = true
+  // await getBannerData()
+  // await getHomeCategoryData()
+  // await getHomeHotData()
+  await Promise.all([getBannerData(), getHomeCategoryData(), getHomeHotData()])
+  isTriggered.value = false
+}
 </script>
 
 <template>
   <CustomNavbar />
-  <scroll-view @scrolltolower="onScrolltolower" class="scroll-view" scroll-y>
+  <scroll-view
+    refresher-enabled="true"
+    @refresherrefresh="onRefresherrefresh"
+    :refresher-triggered="isTriggered"
+    @scrolltolower="onScrolltolower"
+    class="scroll-view"
+    scroll-y
+  >
     <XtxSwiper :list="bannerList" />
     <CategoryPanel :list="categoryList" />
     <HotPanel :list="hotList" />
