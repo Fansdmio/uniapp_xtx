@@ -6,17 +6,36 @@ import { onMounted, ref } from 'vue'
 
 //初始化分页参数
 const pageParams: Required<PageParams> = {
-  page: 1,
+  page: 32,
   pageSize: 10,
 }
 
 // 定义猜你喜欢数据
 const guessList = ref<GuessItem[]>([])
+
+//结束标记
+const finish = ref(false)
+
+//获取猜你喜欢数据
 const getHomeGoodGuessLikeData = async () => {
+  if (finish.value === true) {
+    return uni.showToast({
+      title: '没有更多数据了',
+      icon: 'none',
+    })
+  }
+  //请求猜你喜欢数据
   const res = await getHomeGoodGuessLikeAPI(pageParams)
-  // guessList.value = res.result.items
+  //设置猜你喜欢数据
   guessList.value.push(...res.result.items)
+  //分页条件
+  if (pageParams.page < res.result.pages) {
+    pageParams.page++
+  } else {
+    finish.value = true
+  }
   console.log('已请求数据:' + pageParams.page)
+  //页码累加
   pageParams.page++
 }
 // 组件挂载时请求数据
@@ -50,7 +69,7 @@ defineExpose({
       </view>
     </navigator>
   </view>
-  <view class="loading-text"> 正在加载... </view>
+  <view class="loading-text"> {{ finish ? '没有更多数据~' : '正在加载...' }} </view>
 </template>
 
 <style lang="scss">
