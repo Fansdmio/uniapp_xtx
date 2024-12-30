@@ -1,3 +1,5 @@
+import type { GoodsItem } from './global'
+
 export type BannerItem = {
   // 跳转类型
   hrefUrl: string
@@ -25,22 +27,17 @@ export type HotItem = {
   type: number
 }
 
-export type GuessItem = {
-  //商品描述
-  desc: string
-  //商品折扣
-  discount: string
-  id: string
-  name: string
-  //商品已下单数量
-  orderNum: number
-  //商品图片
-  picture: string
-  //商品价格
-  price: number
-}
+/**
+ * 商品猜你喜欢项
+ */
+export type GuessItem = GoodsItem
 
+/**
+ * 分页参数
+ */
 export type PageParams = {
-  page?: number
-  pageSize?: number
+  /** 当前页码 */
+  page: number
+  /** 每页显示的条数 */
+  pageSize: number
 }
