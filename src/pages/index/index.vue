@@ -8,6 +8,7 @@ import { ref } from 'vue'
 import CategoryPanel from '@/pages/index/components/CategoryPanel.vue'
 import HotPanel from '@/pages/index/components/HotPanel.vue'
 import type { XtxGuessInstance } from '@/types/component'
+import pageSkeleton from '@/pages/index/components/PageSkeleton.vue'
 
 //定义轮播图数据
 const bannerList = ref<BannerItem[]>([])
@@ -35,10 +36,13 @@ const getHomeHotData = async () => {
   hotList.value = res.result
 }
 
-onLoad(() => {
-  getBannerData()
-  getHomeCategoryData()
-  getHomeHotData()
+//定义加载状态
+const isLoading = ref(false)
+
+onLoad(async () => {
+  isLoading.value = true
+  await Promise.all([getBannerData(), getHomeCategoryData(), getHomeHotData()])
+  isLoading.value = false
 })
 
 //定义猜你喜欢组件实例  使guessRef的类型为XtxGuess组件实例
@@ -74,11 +78,14 @@ const onRefresherrefresh = async () => {
     class="scroll-view"
     scroll-y
   >
-    <XtxSwiper :list="bannerList" />
-    <CategoryPanel :list="categoryList" />
-    <HotPanel :list="hotList" />
-    <!-- 绑定XtxGuess组件到guessRef里 -->
-    <XtxGuess ref="guessRef" />
+    <pageSkeleton v-if="isLoading" />
+    <template v-else>
+      <XtxSwiper :list="bannerList" />
+      <CategoryPanel :list="categoryList" />
+      <HotPanel :list="hotList" />
+      <!-- 绑定XtxGuess组件到guessRef里 -->
+      <XtxGuess ref="guessRef" />
+    </template>
   </scroll-view>
 </template>
 
